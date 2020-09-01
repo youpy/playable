@@ -24,7 +24,7 @@ const AlbumDetailWrapper = styled.div`
   }
 
   a:hover {
-    opacity: 0.35;
+    opacity: 0.45;
   }
 
   a.active {
