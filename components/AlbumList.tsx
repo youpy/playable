@@ -88,8 +88,9 @@ const reducer = (_state: State, action: Action): State => {
 
 const AlbumListWrapper = styled.div`
   margin: 0.4em 0 0;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 `;
 
 const AlbumList = (props: Props) => {

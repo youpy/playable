@@ -5,10 +5,20 @@ import AlbumList from '../components/AlbumList';
 import { accountRepository } from '../repositories/redis';
 import { Account } from '../interfaces/account';
 import { Repository } from '../interfaces/repository';
+import styled from 'styled-components';
 
 interface Props {
   accessToken?: string;
 }
+
+const Menu = styled.div`
+  bottom: 1em;
+  right: 1em;
+  background: #fff;
+  padding: 0.3em;
+  position: fixed;
+  z-index: 1;
+`;
 
 export default function Page(props: Props) {
   const [session] = useSession();
@@ -24,10 +34,10 @@ export default function Page(props: Props) {
       )}
       {session && props.accessToken && (
         <>
-          <div>
+          <Menu>
             Signed in as {session.user.name}{' '}
             <button onClick={() => signOut({})}>Sign out</button>
-          </div>
+          </Menu>
           <div>
             <AlbumList accessToken={props.accessToken} />
           </div>

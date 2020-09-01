@@ -11,12 +11,23 @@ interface Props {
 }
 
 const AlbumDetailWrapper = styled.div`
-  margin: 0.2em 0.2em 0 0;
+  margin: 5px;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   a {
+    display: flex;
     opacity: 0.25;
   }
 
-  .active {
+  a:hover {
+    opacity: 0.35;
+  }
+
+  a.active {
     opacity: 1;
   }
 `;
@@ -42,7 +53,7 @@ const AlbumDetail = (props: Props): React.ReactElement => {
         className={`${active ? 'active' : ''}`}
         onClick={onClick}
       >
-        <img src={album.imageUrl} width="150" height="150" />
+        <img src={album.imageUrl} width="100%" height="100%" />
       </a>
     </AlbumDetailWrapper>
   );
