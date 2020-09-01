@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { handleWithAccessToken } from '../../utils/handle_with_access_token';
+import { handleWithAccessToken } from '../../utils/handler';
 
 const play = async (
   deviceId: string,
