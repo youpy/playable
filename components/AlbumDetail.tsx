@@ -1,7 +1,7 @@
 import { Album } from '../interfaces/album';
 import React from 'react';
 import styled from 'styled-components';
-import { Action } from './AlbumList';
+import { Action } from '../reducer';
 
 interface Props {
   album: Album;

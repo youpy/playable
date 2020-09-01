@@ -3,6 +3,7 @@ import AlbumDetail from './AlbumDetail';
 import React, { useState, useEffect, useReducer } from 'react';
 import styled from 'styled-components';
 import { useSpotifyWebPlaybackSdk } from 'use-spotify-web-playback-sdk';
+import { initialState, reducer } from '../reducer';
 
 interface Props {
   accessToken: string;
@@ -44,46 +45,6 @@ const itemToAlbum = (item: Item): Album => {
     externalUrl,
     tracks: item.album.tracks,
   };
-};
-
-interface State {
-  activeAlbum: Album | null;
-  error?: string;
-  playerStatus: 'playing' | 'paused';
-}
-
-export type Action =
-  | {
-      type: 'PLAY';
-      payload: {
-        album: Album;
-      };
-    }
-  | {
-      type: 'PAUSE';
-    }
-  | {
-      type: 'ERROR';
-      payload: {
-        message: string;
-      };
-    };
-const initialState: State = { activeAlbum: null, playerStatus: 'paused' };
-const reducer = (_state: State, action: Action): State => {
-  switch (action.type) {
-    case 'PLAY':
-      return { activeAlbum: action.payload.album, playerStatus: 'playing' };
-    case 'PAUSE':
-      return { activeAlbum: null, playerStatus: 'paused' };
-    case 'ERROR':
-      return {
-        activeAlbum: null,
-        playerStatus: 'paused',
-        error: action.payload.message,
-      };
-    default:
-      throw new Error();
-  }
 };
 
 const AlbumListWrapper = styled.div`
