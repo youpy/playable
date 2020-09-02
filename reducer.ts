@@ -17,9 +17,6 @@ export type Action =
       type: 'DESELECT';
     }
   | {
-      type: 'PAUSE';
-    }
-  | {
       type: 'ERROR';
       payload: {
         message: string;
@@ -31,7 +28,7 @@ export const initialState: State = {
   playerStatus: 'paused',
 };
 
-export const reducer = (state: State, action: Action): State => {
+export const reducer = (_state: State, action: Action): State => {
   switch (action.type) {
     case 'SELECT':
       return {
@@ -43,8 +40,6 @@ export const reducer = (state: State, action: Action): State => {
         album: null,
         playerStatus: 'paused',
       };
-    case 'PAUSE':
-      return { ...state, ...{ playerStatus: 'paused' } };
     case 'ERROR':
       return {
         album: null,

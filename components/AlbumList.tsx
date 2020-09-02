@@ -70,7 +70,7 @@ const AlbumList = (props: Props) => {
     getOAuthToken: () => Promise.resolve(props.accessToken),
     onPlayerStateChanged: (playerState) => {
       if (playerState && playerState.paused) {
-        dispatch({ type: 'PAUSE' });
+        dispatch({ type: 'DESELECT' });
       }
     },
   });
