@@ -8,7 +8,8 @@ declare module 'use-spotify-web-playback-sdk' {
   }
 
   interface SpotifyPlayer {
-    connect: () => void;
+    connect: () => Promise<boolean>;
+    pause: () => Promise<void>;
   }
 
   interface HookReturnValue {

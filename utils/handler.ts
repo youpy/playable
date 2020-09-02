@@ -55,7 +55,7 @@ export const handleWithAccessToken = async (
   } catch (e) {
     const headers = e.response?.headers;
 
-    if (headers && headers['www-authenticate'].match(/expired/)) {
+    if (headers && (headers['www-authenticate'] || '').match(/expired/)) {
       try {
         const accessToken = await refreshToken(account);
 

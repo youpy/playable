@@ -36,8 +36,14 @@ export class AccountRepository {
   }
 }
 
-const instance = new AccountRepository(
-  process.env.REDIS_URL || 'redis://localhost'
-);
+let instance: AccountRepository;
 
-export const accountRepository = () => instance;
+export const accountRepository = () => {
+  if (!instance) {
+    instance = new AccountRepository(
+      process.env.REDIS_URL || 'redis://localhost'
+    );
+  }
+
+  return instance;
+};

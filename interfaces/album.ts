@@ -11,6 +11,7 @@ export interface Tracks {
 }
 
 export interface Album {
+  uri: string;
   addedAt: number;
   imageUrl: string;
   name: string;

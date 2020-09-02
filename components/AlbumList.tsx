@@ -15,6 +15,7 @@ interface Image {
 
 interface Item {
   album: {
+    uri: string;
     external_ids: {
       upc: string;
     };
@@ -38,6 +39,7 @@ const itemToAlbum = (item: Item): Album => {
   const externalUrl = albumItem.external_urls.spotify;
 
   return {
+    uri: albumItem.uri,
     addedAt,
     imageUrl,
     name,
@@ -72,6 +74,7 @@ const AlbumList = (props: Props) => {
       }
     },
   });
+
   useEffect(() => {
     if (isReady) {
       player.connect();
@@ -131,10 +134,10 @@ const AlbumList = (props: Props) => {
               album={itemToAlbum(item)}
               deviceId={deviceId!}
               active={
-                state.activeAlbum?.externalUrl ===
-                item.album.external_urls.spotify
+                state.album?.externalUrl === item.album.external_urls.spotify
               }
               dispatch={dispatch}
+              state={state}
             />
           ))}
         </AlbumListWrapper>

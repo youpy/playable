@@ -1,13 +1,14 @@
 import { Album } from '../interfaces/album';
 import React from 'react';
 import styled from 'styled-components';
-import { Action } from '../reducer';
+import { Action, State } from '../reducer';
 
 interface Props {
   album: Album;
   deviceId: string;
   active: boolean;
   dispatch: React.Dispatch<Action>;
+  state: State;
 }
 
 const AlbumDetailWrapper = styled.div`
@@ -33,17 +34,23 @@ const AlbumDetailWrapper = styled.div`
 `;
 
 const AlbumDetail = (props: Props): React.ReactElement => {
-  const { album, deviceId, active, dispatch } = props;
+  const { album, deviceId, active, dispatch, state } = props;
   const onClick = async () => {
     const searchParams = new URLSearchParams();
+    const playing =
+      state.playerStatus === 'playing' && album.uri === state.album?.uri;
 
     searchParams.set('deviceId', deviceId);
-    album.tracks.items.forEach((item) =>
-      searchParams.append('spotifyUris', item.uri)
-    );
 
-    await fetch(`/api/playback?${searchParams.toString()}`);
-    dispatch({ type: 'PLAY', payload: { album: album } });
+    if (!playing) {
+      searchParams.append('contextUri', album.uri);
+
+      await fetch(`/api/playback?${searchParams.toString()}`);
+      dispatch({ type: 'SELECT', payload: { album } });
+    } else {
+      await fetch(`/api/pause?${searchParams.toString()}`);
+      dispatch({ type: 'DESELECT' });
+    }
   };
 
   return (
