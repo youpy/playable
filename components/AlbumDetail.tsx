@@ -42,11 +42,11 @@ const AlbumDetail = (props: Props): React.ReactElement => {
     if (!playing) {
       searchParams.append('contextUri', album.uri);
 
-      await fetch(`/api/playback?${searchParams.toString()}`);
       dispatch({ type: 'SELECT', payload: { album } });
+      await fetch(`/api/playback?${searchParams.toString()}`);
     } else {
-      await fetch(`/api/pause?${searchParams.toString()}`);
       dispatch({ type: 'DESELECT' });
+      await fetch(`/api/pause?${searchParams.toString()}`);
     }
   };
 
