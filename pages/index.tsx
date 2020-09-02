@@ -5,6 +5,7 @@ import AlbumList from '../components/AlbumList';
 import { accountRepository } from '../repositories/redis';
 import { Account } from '../interfaces/account';
 import { Repository } from '../interfaces/repository';
+import { refreshToken } from '../utils/handler';
 import styled from 'styled-components';
 
 interface Props {
@@ -62,7 +63,16 @@ export async function getServerSideProps(context: { req: NextApiRequest }) {
     return { props: {} };
   }
 
+  const accessToken = await refreshToken(account);
+
+  if (!accessToken) {
+    return { props: {} };
+  }
+
+  account.accessToken = accessToken;
+  accounts.set(username, account);
+
   return {
-    props: { accessToken: account.accessToken }, // will be passed to the page component as props
+    props: { accessToken }, // will be passed to the page component as props
   };
 }
