@@ -16,11 +16,8 @@ const AlbumDetailWrapper = styled.div`
   cursor: pointer;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
 
   a {
-    display: flex;
     opacity: 0.25;
   }
 
