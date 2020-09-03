@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/client';
 import AlbumList from '../components/AlbumList';
+import Layout from '../components/Layout';
 import styled from 'styled-components';
 
 const Menu = styled.div`
@@ -21,7 +22,7 @@ export default function Page() {
   }
 
   return (
-    <>
+    <Layout>
       {!loading && session && (
         <>
           <Menu>
@@ -33,6 +34,6 @@ export default function Page() {
           </div>
         </>
       )}
-    </>
+    </Layout>
   );
 }
