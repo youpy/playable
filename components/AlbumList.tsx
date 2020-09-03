@@ -112,6 +112,7 @@ const AlbumList = () => {
       if (json.items) {
         setCursor([data.concat(json.items), page + 1, json.total]);
       } else {
+        // if the album could not be retrieved, the authentication token may have expired, so sign out.
         signOut({});
       }
     };
