@@ -1,6 +1,7 @@
 import { Album, Artist, Tracks } from '../interfaces/album';
 import AlbumDetail from './AlbumDetail';
 import React, { useState, useEffect, useReducer } from 'react';
+import { signOut } from 'next-auth/client';
 import styled from 'styled-components';
 import { useSpotifyWebPlaybackSdk } from 'use-spotify-web-playback-sdk';
 import { initialState, reducer } from '../reducer';
@@ -108,7 +109,11 @@ const AlbumList = () => {
       const res = await fetch(`/api/albums?page=${page}`);
       const json = await res.json();
 
-      setCursor([data.concat(json.items), page + 1, json.total]);
+      if (json.items) {
+        setCursor([data.concat(json.items), page + 1, json.total]);
+      } else {
+        signOut({});
+      }
     };
 
     if (page === 0) {
