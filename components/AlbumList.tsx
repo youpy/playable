@@ -67,7 +67,7 @@ const AlbumList = () => {
       const res = await fetch('/api/token');
       const json = await res.json();
 
-      return Promise.resolve(json.token);
+      return json.token;
     },
     onPlayerStateChanged: (playerState) => {
       if (playerState && playerState.paused) {
