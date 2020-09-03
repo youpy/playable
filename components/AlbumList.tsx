@@ -5,10 +5,6 @@ import styled from 'styled-components';
 import { useSpotifyWebPlaybackSdk } from 'use-spotify-web-playback-sdk';
 import { initialState, reducer } from '../reducer';
 
-interface Props {
-  accessToken: string;
-}
-
 interface Image {
   url: string;
 }
@@ -56,7 +52,7 @@ const AlbumListWrapper = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 `;
 
-const AlbumList = (props: Props) => {
+const AlbumList = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [[data, page, total], setCursor] = useState<[Item[], number, number]>([
     [],
@@ -67,7 +63,12 @@ const AlbumList = (props: Props) => {
     name: 'my spotify player',
     accountError: (e: { message: string }) =>
       dispatch({ type: 'ERROR', payload: { message: e.message } }),
-    getOAuthToken: () => Promise.resolve(props.accessToken),
+    getOAuthToken: async () => {
+      const res = await fetch('/api/token');
+      const json = await res.json();
+
+      return Promise.resolve(json.token);
+    },
     onPlayerStateChanged: (playerState) => {
       if (playerState && playerState.paused) {
         dispatch({ type: 'DESELECT' });
