@@ -1,6 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import { useRouter } from 'next/router';
-import { getSession, signOut, useSession } from 'next-auth/client';
+import { signOut, useSession } from 'next-auth/client';
 import AlbumList from '../components/AlbumList';
 import styled from 'styled-components';
 
