@@ -61,7 +61,7 @@ const AlbumList = () => {
     0,
   ]);
   const { player, deviceId, isReady } = useSpotifyWebPlaybackSdk({
-    name: 'my spotify player',
+    name: 'Playable',
     accountError: (e: { message: string }) =>
       dispatch({ type: 'ERROR', payload: { message: e.message } }),
     getOAuthToken: async () => {
