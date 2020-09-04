@@ -1,50 +1,11 @@
-import { Album, Artist, Tracks } from '../interfaces/album';
+import { Album } from '../interfaces/album';
 import AlbumDetail from './AlbumDetail';
 import React, { useState, useEffect, useReducer } from 'react';
 import { signOut } from 'next-auth/client';
 import styled from 'styled-components';
 import { useSpotifyWebPlaybackSdk } from 'use-spotify-web-playback-sdk';
 import { initialState, reducer } from '../reducer';
-
-interface Image {
-  url: string;
-}
-
-interface Item {
-  album: {
-    uri: string;
-    external_ids: {
-      upc: string;
-    };
-    added_at: string;
-    images: Image[];
-    name: string;
-    artists: Artist[];
-    external_urls: {
-      spotify: string;
-    };
-    tracks: Tracks;
-  };
-}
-
-const itemToAlbum = (item: Item): Album => {
-  const albumItem = item.album;
-  const addedAt = Date.parse(albumItem.added_at);
-  const imageUrl = albumItem.images[1].url;
-  const name = albumItem.name;
-  const artist = albumItem.artists[0];
-  const externalUrl = albumItem.external_urls.spotify;
-
-  return {
-    uri: albumItem.uri,
-    addedAt,
-    imageUrl,
-    name,
-    artist,
-    externalUrl,
-    tracks: item.album.tracks,
-  };
-};
+import { AlbumService } from '../services/album';
 
 const AlbumListWrapper = styled.div`
   margin: 0.4em 0 0;
@@ -55,7 +16,7 @@ const AlbumListWrapper = styled.div`
 
 const AlbumList = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [[data, page, total], setCursor] = useState<[Item[], number, number]>([
+  const [[data, page, total], setCursor] = useState<[Album[], number, number]>([
     [],
     0,
     0,
@@ -106,12 +67,11 @@ const AlbumList = () => {
         return;
       }
 
-      const res = await fetch(`/api/albums?page=${page}`);
-      const json = await res.json();
+      try {
+        const result = await new AlbumService().get({ page });
 
-      if (json.items) {
-        setCursor([data.concat(json.items), page + 1, json.total]);
-      } else {
+        setCursor([data.concat(result.albums), page + 1, result.total]);
+      } catch (e) {
         // if the album could not be retrieved, the authentication token may have expired, so sign out.
         signOut({});
       }
@@ -135,14 +95,12 @@ const AlbumList = () => {
       {state.error && <div>{state.error}</div>}
       {!state.error && (
         <AlbumListWrapper className="album-list">
-          {data.map((item: Item) => (
+          {data.map((album: Album) => (
             <AlbumDetail
-              key={item.album.external_urls.spotify}
-              album={itemToAlbum(item)}
+              key={album.uri}
+              album={album}
               deviceId={deviceId!}
-              active={
-                state.album?.externalUrl === item.album.external_urls.spotify
-              }
+              active={state.album?.uri === album.uri}
               dispatch={dispatch}
               state={state}
             />

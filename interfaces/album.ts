@@ -16,6 +16,5 @@ export interface Album {
   imageUrl: string;
   name: string;
   artist: Artist;
-  externalUrl: string;
   tracks: Tracks;
 }
