@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Account } from '../interfaces/account';
 import { Repository } from '../interfaces/repository';
-import { accountRepository } from '../repositories/redis';
+import { accountRepository } from '../repositories/account';
 
 export const refreshToken = async (
   account: Account

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
-import { accountRepository } from '../../repositories/redis';
+import { accountRepository } from '../../repositories/account';
 import { Account } from '../../interfaces/account';
 import { Repository } from '../../interfaces/repository';
 import { refreshToken } from '../../utils/handler';

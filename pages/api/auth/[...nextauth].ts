@@ -4,7 +4,7 @@ import NextAuth, { InitOptions } from 'next-auth';
 import Providers from 'next-auth/providers';
 import { Account } from '../../../interfaces/account';
 import { Repository } from '../../../interfaces/repository';
-import { accountRepository } from '../../../repositories/redis';
+import { accountRepository } from '../../../repositories/account';
 
 const options: InitOptions = {
   callbacks: {
