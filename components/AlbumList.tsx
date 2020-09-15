@@ -29,6 +29,11 @@ const AlbumList = () => {
       const res = await fetch('/api/token');
       const json = await res.json();
 
+      if (json.token === null) {
+        // sign out if the token could not be retrieved
+        return signOut({});
+      }
+
       return json.token;
     },
     onPlayerStateChanged: (playerState) => {
